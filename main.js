@@ -93,6 +93,7 @@ const updateCount = async (id, url) => {
     // if(emailCount - 1 > row.count ){
       
     // } 
+    console.log(emailCount, row.count)
     if (emailCount > row.count) {
       const updateSql = 'UPDATE fileclickcount SET count = count + 1 WHERE id = ?';
       await pool.query(updateSql, [id]);
