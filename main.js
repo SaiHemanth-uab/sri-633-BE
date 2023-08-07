@@ -69,6 +69,7 @@ const subscribedUsers = async (topicArn) => {
     const command = new ListSubscriptionsByTopicCommand({ TopicArn: topicArn });
     const response = await snsClient.send(command);
     const subscribers = response.Subscriptions.map((subscription) => subscription.Endpoint);
+    console.log('file delete process')
     return subscribers;
   } catch (error) {
     console.error("Error in getting subscribed users list:", error);
@@ -94,9 +95,12 @@ const updateCount = async (id, url) => {
       const updateSql = 'UPDATE fileclickcount SET count = count + 1 WHERE id = ?';
       await pool.query(updateSql, [id]);
       console.log('The count updated successfully.');
+      if(emailCount-1 == row.count){
+         file_deletion_exceeds_count(url)
+      }
       return true;
     } else {
-      file_deletion_exceeds_count(url)
+     
       console.log('The count limit has reached, cannot update the count.');
       return false;
     }
