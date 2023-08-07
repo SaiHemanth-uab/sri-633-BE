@@ -22,8 +22,8 @@ const sns = new aws.SNS();
 const lambda = new aws.Lambda();
 const upload = multer();
 
-function onSetStatus(code, data){
-  let res;
+function onSetStatus(code, data, res){
+ 
   return res.status(code).json({
     status: code, data: data
   });
@@ -223,11 +223,11 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     console.log(
       "The file link has been sent to the users successfully who are subscribed."
     );
-      onSetStatus(200, "The file has been successfully uploaded to S3")
+      onSetStatus(200, "The file has been successfully uploaded to S3", res)
     
   } catch (error) {
     console.error("Upload failed:", error);
-     onSetStatus(500, "The file upload has failed")
+     onSetStatus(500, "The file upload has failed", res)
   }
 });
 
@@ -270,24 +270,24 @@ app.post("/api/subscriptions/send", async (req, res) => {
     });
 
     const confirmationUrls = await Promise.all(subscriptionPromises);
-      onSetStatus(200, confirmationUrls)
+      onSetStatus(200, confirmationUrls, res)
    
   } catch (error) {
     console.error("Error has been encountered in subscription process:", error);
-     onSetStatus(500, "Error has been encountered in subscription process")
+     onSetStatus(500, "Error has been encountered in subscription process", res)
   }
 });
 
 app.post("/api/count", async (req, res) => {
   try {
     if (await setUpdateCount(req.body.userId, req.body.url)) {
-      onSetStatus(200, true)
+      onSetStatus(200, true, res)
       
     } else {
-       onSetStatus(200, false)
+       onSetStatus(200, false, res)
     }
   } catch (err) {
-     onSetStatus(500, err)
+     onSetStatus(500, err, res)
    
   }
 });
