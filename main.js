@@ -87,16 +87,16 @@ const updateCount = async (id, url) => {
 
     const row = rows[0];
     const emailCount = row.emails.split(',').length;
-    if(emailCount - 1 > row.count ){
-      file_deletion_exceeds_count(url)
-    } 
+    // if(emailCount - 1 > row.count ){
+      
+    // } 
     if (emailCount > row.count) {
       const updateSql = 'UPDATE fileclickcount SET count = count + 1 WHERE id = ?';
       await pool.query(updateSql, [id]);
       console.log('The count updated successfully.');
       return true;
     } else {
-      
+      file_deletion_exceeds_count(url)
       console.log('The count limit has reached, cannot update the count.');
       return false;
     }
