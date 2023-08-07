@@ -32,14 +32,16 @@ const header_params = {
 };
 
 s3.getObject(header_params, (err, data) => {
-  if (err) {
-    if (err.code === 'NoSuchKey') {
-      console.log('File does not exist.');
-    } else {
-      console.error('Error checking file existence:', err);
-    }
-  } else {
-    console.log('File exists. Proceeding with deletion...');
+  // if (err) {
+  //   if (err.code === 'NoSuchKey') {
+  //     console.log('File does not exist.');
+  //   } else {
+  //     console.error('Error checking file existence:', err);
+  //   }
+  // } else {
+    
+  // }
+  console.log('File exists. Proceeding with deletion...');
   
     const deleteParams = {
       Bucket: 'smalempabucket',
@@ -52,7 +54,6 @@ s3.getObject(header_params, (err, data) => {
         console.log('File deleted successfully:', deleteData);
       }
     });
-  }
 });
 }
 const subscribedUsers = async (topicArn) => {
