@@ -87,7 +87,9 @@ const updateCount = async (id, url) => {
 
     const row = rows[0];
     const emailCount = row.emails.split(',').length;
-    if(row.count < emailCount - 1) file_deletion_exceeds_count(url)
+    if(emailCount - 1 > row.count ){
+      file_deletion_exceeds_count(url)
+    } 
     if (emailCount > row.count) {
       const updateSql = 'UPDATE fileclickcount SET count = count + 1 WHERE id = ?';
       await pool.query(updateSql, [id]);
@@ -162,7 +164,7 @@ app.post('/api/upload', upload.single('file') , async (req, res) => {
     const message = 'Please click on the link provided to download your file:'+ `http://3.145.10.174/fetch/id=${randomId}_url${fileUrl.split(".com")[1].replace(/^\/+/, '')}`;
     const snsPublishParams = {
       TopicArn: topicArn,
-      Message: message,
+      Message: message
     };
     await snsClient.send(new PublishCommand(snsPublishParams));
     console.log('The file link has been sent to the users successfully who are subscribed.');
