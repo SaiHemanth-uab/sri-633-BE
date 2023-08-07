@@ -216,7 +216,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         .split(".com")[1]
         .replace(/^\/+/, "")}`;
     const snsPublishParams = {
-      TopicArn: topicArn,
+      TopicArn: tpArn,
       Message: linkMsg,
     };
     await snsClient.send(new PublishCommand(snsPublishParams));
